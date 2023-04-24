@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noteapp/component/defaultTextForm.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -12,6 +13,11 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
+      body: Column(
+        children: [
+
+        ],
+      ),
     );
   }
 }
