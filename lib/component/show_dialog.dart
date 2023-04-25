@@ -41,7 +41,6 @@ class Show_Dialog{
         return AlertDialog(
           backgroundColor: RODINACOLOR,
           content: Text(message),
-
         );
       },
     );
