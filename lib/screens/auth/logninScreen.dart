@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:noteapp/component/defaultTextForm.dart';
 import 'package:noteapp/generated/assets.dart';
 import 'package:noteapp/screens/auth/SignUpScreen.dart';
+import 'package:noteapp/screens/home_screen.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+class SingIn extends StatefulWidget {
+  const SingIn({Key? key}) : super(key: key);
   static const String routeName = 'login';
 
   @override
-  State<Login> createState() => _LoginState();
+  State<SingIn> createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginState extends State<SingIn> {
   var usernameController = TextEditingController();
   var passwordController = TextEditingController();
   var formKey = GlobalKey<FormState>();
@@ -81,10 +82,9 @@ class _LoginState extends State<Login> {
                       loginUser();
                     },
                     child: const Text(
-                      'login',
+                      'Login',
                       style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w900,
+                        fontSize: 25,
                       ),
                     )),
                 const SizedBox(
@@ -109,7 +109,8 @@ class _LoginState extends State<Login> {
   }
 
   void loginUser() {
-    if (formKey.currentState!.validate()) {}
+    // if (formKey.currentState!.validate()) {}
+    Navigator.pushReplacementNamed(context, HomeScreen.routeName);
   }
 
   void goToSingUp() {
