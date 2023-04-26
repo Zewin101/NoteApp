@@ -5,7 +5,7 @@ import 'package:noteapp/screens/home_screen.dart';
 import 'package:noteapp/shared/remot/api.dart';
 import '../../constant/constant.dart';
 import '../../generated/assets.dart';
-import 'logninScreen.dart';
+import 'singinScreen.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);

@@ -17,7 +17,9 @@ class Show_Dialog{
             color:  RODINACOLOR,
             child: Row(
               children: [
-                Text(message),
+                Text(message,style: const TextStyle(
+                  color: Colors.white,
+                ),),
                 const SizedBox(
                   width: 15,
                 ),
