@@ -9,6 +9,7 @@ class DefaultTextForm extends StatelessWidget {
   final TextInputType? keyboardType;
   final Function? isPassword;
   final bool? obscureText ;
+  final int? maxLines ;
 
   DefaultTextForm(
       {super.key,
@@ -19,11 +20,14 @@ class DefaultTextForm extends StatelessWidget {
       this.suffixIcon,
       this.keyboardType,
       this.isPassword,
-      this.obscureText});
+      this.obscureText,
+        this.maxLines
+      });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines,
       obscureText: obscureText??false,
       keyboardType: keyboardType,
       controller: controller,

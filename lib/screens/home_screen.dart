@@ -1,10 +1,10 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:noteapp/component/card.dart';
-import 'package:noteapp/generated/assets.dart';
 import 'package:noteapp/models/ViewNotes.dart';
 import 'package:noteapp/screens/auth/singinScreen.dart';
-
+import 'package:noteapp/screens/notes/addNotes.dart';
+import 'package:noteapp/screens/notes/editNote.dart';
 import '../constant/constant.dart';
 import '../main.dart';
 import '../shared/remot/api.dart';
@@ -35,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> with ApiShare {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          Navigator.pushNamed(context, AddNotes.routeName);
           print(sharedPreferences.getString('id'));
         },
         child: const Icon(Icons.add),
@@ -47,6 +48,16 @@ class _HomeScreenState extends State<HomeScreen> with ApiShare {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             }
+            if (snapshot.data?.status == 'filed') {
+              return const Center(
+                  child: Text(
+                'لا يوجد ملاحظات',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              ));
+            }
             if (snapshot.hasError) {
               return const Center(child: CircularProgressIndicator());
             }
@@ -57,7 +68,15 @@ class _HomeScreenState extends State<HomeScreen> with ApiShare {
                 return CardNotes(
                     Title: '${allData[index].notesTitle}',
                     Content: '${allData[index].notesContent}',
-                    ontap: () {});
+                    ontap: () {
+                      Navigator.pushNamed(context, EditNote.routeName,
+                          arguments: Data.inti(
+                              allData[index].notesId,
+                              allData[index].notesTitle,
+                              allData[index].notesContent));
+                      print( allData[index].notesId);
+                    });
+
               },
             );
           },

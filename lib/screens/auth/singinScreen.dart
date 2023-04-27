@@ -139,6 +139,7 @@ class _LoginState extends State<SingIn> {
         AwesomeDialog(
             context: context,
             btnOkOnPress: () {
+
               Navigator.pushReplacementNamed(context, HomeScreen.routeName);
             },
             body: const Text(
