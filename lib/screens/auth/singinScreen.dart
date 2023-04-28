@@ -5,6 +5,7 @@ import 'package:noteapp/generated/assets.dart';
 import 'package:noteapp/main.dart';
 import 'package:noteapp/screens/auth/signUpScreen.dart';
 import 'package:noteapp/screens/home_screen.dart';
+import 'package:noteapp/screens/test.dart';
 import 'package:noteapp/shared/remot/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,7 +31,6 @@ class _LoginState extends State<SingIn> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         toolbarHeight: 100,
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -55,6 +55,7 @@ class _LoginState extends State<SingIn> {
                             height: 5,
                           ),
                           DefaultTextForm(
+                              maxLines: 1,
                               hintText: 'username',
                               prefixIcon: const Icon(Icons.people),
                               controller: usernameController,
@@ -85,6 +86,7 @@ class _LoginState extends State<SingIn> {
                               setState(() {});
                             },
                             obscureText: isPassword,
+                            maxLines: 1,
                           ),
                           const SizedBox(
                             height: 5,
@@ -130,16 +132,20 @@ class _LoginState extends State<SingIn> {
         'username': usernameController.text,
         'password': passwordController.text
       });
+      setState(() {});
       if (response['status'] == "success") {
+        print(response);
+        // sharedPreferences.setInt('id', response['data']['0']);
         sharedPreferences.setString("id", response['data']['id'].toString());
-        sharedPreferences.setString("username", response['data']['username']);
-        sharedPreferences.setString("email", response['data']['email']);
+        sharedPreferences.setString(
+            "username", response['data']['username'].toString());
+        sharedPreferences.setString(
+            "email", response['data']['email'].toString());
         sharedPreferences.setString(
             "password", response['data']['password'].toString());
         AwesomeDialog(
             context: context,
             btnOkOnPress: () {
-
               Navigator.pushReplacementNamed(context, HomeScreen.routeName);
             },
             body: const Text(
@@ -151,6 +157,9 @@ class _LoginState extends State<SingIn> {
       } else {
         AwesomeDialog(
             context: context,
+            btnOkOnPress: () {
+              Navigator.pushReplacementNamed(context, SingIn.routeName);
+            },
             title: "تنبيه",
             body: const Text(
               'اسم المستخدم او كلمة المرور غير صحيح',
@@ -165,6 +174,4 @@ class _LoginState extends State<SingIn> {
   void goToSingUp() {
     Navigator.pushNamed(context, SignUp.routeName);
   }
-
-
 }

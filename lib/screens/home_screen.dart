@@ -5,6 +5,7 @@ import 'package:noteapp/models/ViewNotes.dart';
 import 'package:noteapp/screens/auth/singinScreen.dart';
 import 'package:noteapp/screens/notes/addNotes.dart';
 import 'package:noteapp/screens/notes/editNote.dart';
+import '../component/show_dialog.dart';
 import '../constant/constant.dart';
 import '../main.dart';
 import '../shared/remot/api.dart';
@@ -66,17 +67,22 @@ class _HomeScreenState extends State<HomeScreen> with ApiShare {
               itemCount: allData.length,
               itemBuilder: (context, index) {
                 return CardNotes(
-                    Title: '${allData[index].notesTitle}',
-                    Content: '${allData[index].notesContent}',
-                    ontap: () {
-                      Navigator.pushNamed(context, EditNote.routeName,
-                          arguments: Data.inti(
-                              allData[index].notesId,
-                              allData[index].notesTitle,
-                              allData[index].notesContent));
-                      print( allData[index].notesId);
-                    });
-
+                  title: '${allData[index].notesTitle}',
+                  content: '${allData[index].notesContent}',
+                  onTap: () {
+                    Navigator.pushNamed(context, EditNote.routeName,
+                        arguments: Data.inti(
+                            allData[index].notesId,
+                            allData[index].notesTitle,
+                            allData[index].notesContent));
+                    print(allData[index].notesId);
+                  },
+                  /// Delete Note
+                  delete: () async {
+                    await ApiShare.deleteData('${allData[index].notesId}');
+                    setState(() {});
+                  },
+                );
               },
             );
           },
@@ -86,6 +92,7 @@ class _HomeScreenState extends State<HomeScreen> with ApiShare {
   }
 
   void singOut() {
+    /// Sing Out
     AwesomeDialog(
         context: context,
         btnOkOnPress: () {
@@ -101,10 +108,7 @@ class _HomeScreenState extends State<HomeScreen> with ApiShare {
         )).show();
   }
 
-  getNotes() async {
-    var response = await ApiShare.postRequest(linkViewNotes, {
-      "id": sharedPreferences.getString('id'),
-    });
-    return response;
-  }
+
+
+
 }

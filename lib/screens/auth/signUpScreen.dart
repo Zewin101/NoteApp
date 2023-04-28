@@ -1,9 +1,7 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:noteapp/component/defaultTextForm.dart';
-import 'package:noteapp/component/show_dialog.dart';
-import 'package:noteapp/screens/home_screen.dart';
 import 'package:noteapp/shared/remot/api.dart';
-import '../../constant/constant.dart';
 import '../../generated/assets.dart';
 import 'singinScreen.dart';
 
@@ -16,7 +14,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  // ApiShare apiShare = ApiShare();
+
   var usernameController = TextEditingController();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
@@ -81,6 +79,7 @@ class _SignUpState extends State<SignUp> {
                   height: 5,
                 ),
                 DefaultTextForm(
+                  maxLines: 1,
                   hintText: 'password',
                   prefixIcon: const Icon(Icons.lock),
                   suffixIcon: isPassword
@@ -103,8 +102,8 @@ class _SignUpState extends State<SignUp> {
                   height: 5,
                 ),
                 ElevatedButton(
-                    onPressed: () async{
-                    await  logUpUser();
+                    onPressed: () async {
+                      await logUpUser();
                     },
                     child: const Text(
                       'create account',
@@ -133,23 +132,27 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-   logUpUser() async {
+  logUpUser() async {
     if (formKey.currentState!.validate()) {
-      Show_Dialog.showLoading(context);
-      var response = await ApiShare.postRequest(linkSingUp, {
+      Map user = {
         'username': usernameController.text,
         'email': emailController.text,
-        'password': passwordController.text,
-      });
-      if (response['status'] == 'success') {
+        'password': passwordController.text
+      };
+      var response = await ApiShare.addUserToDatabase(user);
+      setState(() {});
 
-        Show_Dialog.hideLoading(context);
-        Show_Dialog.showMessage("تم اضافة المستخدم بنجاح", context);
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            HomeScreen.routeName, (route) => false);
-      } else {
-        print("لم يتم اضافة المستخدم ");
-      }
+      AwesomeDialog(
+          context: context,
+          btnOkOnPress: () {
+            Navigator.pushReplacementNamed(context, SingIn.routeName);
+          },
+          body: const Text(
+            'تسجيل ناجح',
+            style: TextStyle(
+              fontSize: 17,
+            ),
+          )).show();
     }
   }
 
