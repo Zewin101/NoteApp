@@ -24,7 +24,7 @@ class _EditNoteState extends State<EditNote> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    arg = Data.inti(0, titleController.text, contentController.text);
+    arg = Data(notesTitle: titleController.text,notesContent: contentController.text);
   }
 
   @override
@@ -86,7 +86,7 @@ class _EditNoteState extends State<EditNote> {
     try{
       Show_Dialog.showLoading(context);
       var response= ApiShare.editNote(arg!.notesId.toString(), titleController.text,
-          contentController.text);
+          contentController.text,arg!.notesImage.toString());
       Show_Dialog.hideLoading(context);
       Navigator.pushReplacementNamed(context, HomeScreen.routeName);
       Show_Dialog.showMessage("تم التعديل  بنجاح", context);

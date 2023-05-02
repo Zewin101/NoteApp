@@ -135,7 +135,6 @@ class _LoginState extends State<SingIn> {
       setState(() {});
       if (response['status'] == "success") {
         print(response);
-        // sharedPreferences.setInt('id', response['data']['0']);
         sharedPreferences.setString("id", response['data']['id'].toString());
         sharedPreferences.setString(
             "username", response['data']['username'].toString());

@@ -45,7 +45,7 @@ class Data {
     this.notesUsers,
   });
 
-  Data.inti(this.notesId, this.notesTitle, this.notesContent);
+  Data.inti(this.notesId, this.notesTitle, this.notesContent,this.notesImage);
 
   Data.fromJson(dynamic json) {
     notesId = json['notes_id'];

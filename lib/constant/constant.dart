@@ -10,3 +10,7 @@ const String linkAddNote = "$linkServerName/notes/add.php";
 const String linkEditNote = "$linkServerName/notes/edit.php";
 const String linkDeleteNote = "$linkServerName/notes/delete.php";
 const String linkViewNotes = "$linkServerName/notes/view.php";
+
+
+///images
+const String linkUpLoadImages = "$linkServerName/upload/";

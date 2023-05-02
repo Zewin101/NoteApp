@@ -26,11 +26,19 @@ class _HomeScreenState extends State<HomeScreen> with ApiShare {
     return Scaffold(
       appBar: AppBar(
         actions: [
+          IconButton(onPressed: (){
+            setState(() {
+
+            });
+          }, icon: Icon(Icons.refresh)),
           IconButton(
               onPressed: () {
                 singOut();
               },
               icon: const Icon(Icons.exit_to_app)),
+
+
+
         ],
         title: const Text('Home'),
       ),
@@ -69,17 +77,21 @@ class _HomeScreenState extends State<HomeScreen> with ApiShare {
                 return CardNotes(
                   title: '${allData[index].notesTitle}',
                   content: '${allData[index].notesContent}',
+                  image:'${allData[index].notesImage}' ,
                   onTap: () {
                     Navigator.pushNamed(context, EditNote.routeName,
                         arguments: Data.inti(
                             allData[index].notesId,
                             allData[index].notesTitle,
-                            allData[index].notesContent));
+                            allData[index].notesContent,
+                            allData[index].notesImage
+                        ));
                     print(allData[index].notesId);
+                    print('${allData[index].notesImage}');
                   },
                   /// Delete Note
                   delete: () async {
-                    await ApiShare.deleteData('${allData[index].notesId}');
+                    await ApiShare.deleteData('${allData[index].notesId}',allData[index].notesImage.toString());
                     setState(() {});
                   },
                 );

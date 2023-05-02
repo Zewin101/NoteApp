@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:noteapp/component/defaultTextForm.dart';
+import 'package:noteapp/constant/constant.dart';
 import 'package:noteapp/main.dart';
 import 'package:noteapp/shared/remot/api.dart';
 
@@ -18,12 +22,14 @@ class _AddNotesState extends State<AddNotes> {
   var titleController = TextEditingController();
   var contentController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  File? myFile;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Note'),
+
       ),
       body: Container(
         padding: EdgeInsets.all(10),
@@ -55,6 +61,86 @@ class _AddNotesState extends State<AddNotes> {
                   return null;
                 },
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(
+                  onPressed: () async {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) => SizedBox(
+                        width: double.infinity,
+                        height: MediaQuery.of(context).size.height * 0.18,
+                        child: Column(
+                          children: [
+                            const Text(
+                              'Choose Image ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                fontSize: 30,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            InkWell(
+                              onTap: () async {
+                                XFile? xFile = await ImagePicker()
+                                    .pickImage(source: ImageSource.camera);
+                                Navigator.pop(context);
+                                myFile = File(xFile!.path);
+                                print(myFile!.path);
+                                setState(() {
+                                });
+                              },
+                              child: const SizedBox(
+                                width: double.infinity,
+                                height: 30,
+                                child: Text(
+                                  'From Camera',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 25,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            InkWell(
+                              onTap: () async {
+                                XFile? xFile = await ImagePicker()
+                                    .pickImage(source: ImageSource.gallery);
+                                Navigator.of(context).pop();
+                                myFile = File(xFile!.path);
+                                setState(() {
+
+                                });
+                                print(myFile!.path);
+
+                              },
+                              child: Container(
+                                width: double.infinity,
+                                height: 30,
+                                child: const Text(
+                                  'From Gallery',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 25,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+
+                  },
+                  child: const Text('upload  image')),
               SizedBox(
                 height: 10,
               ),
@@ -71,19 +157,20 @@ class _AddNotesState extends State<AddNotes> {
   }
 
   addNoteInDatabase() {
-    try{
+    try {
       if (formKey.currentState!.validate()) {
         Show_Dialog.showLoading(context);
-        var response = ApiShare.addData(
-            sharedPreferences.getString('id').toString(),
-            titleController.text,
-            contentController.text);
+        ApiShare.uploadImages(myFile!, sharedPreferences.getString('id')!,
+            titleController.text, contentController.text);
+        print(myFile!.path);
         Show_Dialog.hideLoading(context);
         Navigator.pushReplacementNamed(context, HomeScreen.routeName);
         Show_Dialog.showMessage("تم الاضافة  بنجاح", context);
+        print('تم الاضافة  بنجاح');
       }
-    }catch(e){
+    } catch (e) {
       print('Error -> $e');
+      print('حدث خطاء ما ');
     }
   }
 }

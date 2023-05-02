@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:noteapp/constant/constant.dart';
 import 'package:noteapp/generated/assets.dart';
 
 class CardNotes extends StatelessWidget {
   final String title;
   final String content;
+  final String image;
   final void Function()? onTap;
   final void Function()? delete;
 
@@ -12,7 +14,8 @@ class CardNotes extends StatelessWidget {
       required this.title,
       required this.content,
       required this.onTap,
-      required this.delete
+      required this.delete,
+      required this.image,
       })
       : super(key: key);
 
@@ -28,8 +31,8 @@ class CardNotes extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Expanded(
-                    child: Image.asset(
-                  Assets.imageLogo,
+                    child: Image.network(
+                      '$linkUpLoadImages$image',
                   width: 100,
                   height: 100,
                   fit: BoxFit.fill,
